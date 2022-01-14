@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "GroupDashboard";
+    Layout = "~/Views/Layouts/_EmptyLayout.cshtml";
+}
+
+
+</style>
+
+
+
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row card">
+        <div class="col-lg-7 card ">
+            @foreach (var su in ViewData["supervisor"] as IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblGroup>)
+            {
+                <h2>@su.groupName</h2>
+                <h3>Group Leader: <span class="text-muted">@su.leader</span></h3>
+                foreach (var du in ViewData["download"] as IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblProjects>)
+                {
+                    <h3>Group Project: <span class="text-muted">@su.groupProject</span><a href="~/StudentProjects/@du.ProjectProposal">Download</a></h3>
+
+
+                }
+                <h3>Group Supervisor: <span class="text-muted">@su.groupSupervisor</span></h3>
+                <h3>Member count: <span class="text-muted">@su.MembersCount</span></h3>
+
+            }
+        </div>
+        <br /><br /><br />
+        <h3 class="p-2">Group Members:</h3>
+        <hr />
+
+
+        @foreach (var st in ViewData["students"] as IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblStudents>)
+        {
+
+
+            <div class="col-md-5 card-body p-2 m-4" style="border:solid thin">
+                <ul class="ul-slider">
+                    <li class="list-group">
+                        <h3 style="margin-top:15px">@st.studentFname @st.studentLname</h3>
+                    </li>
+                    <li class="list-group">
+                        @st.studentEmail
+                    </li>
+                    <li class="list-group">
+                        @st.studentDOB
+                    </li>
+
+                    <li>
+                       
+                    </li>
+
+                </ul>
+
+
+
+
+            </div>
+
+
+        }
+
+
+
+
+
+
+
+        <script>
+
+            function show_alert() {
+                alert("Are you Sure??");
+            }
+        </script>
+
+

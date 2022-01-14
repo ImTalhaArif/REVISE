@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "StudentTask";
+    Layout = "~/Views/Layouts/_EmptyLayout.cshtml";
+}
+
+<h2>StudentTask</h2>
+<div class="container-fluid">
+    <div class="row card">
+        <div class="col-lg-7 card ">
+            <h3 class="pt-3">Supervisor Tasks</h3>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Task Details
+                        </th>
+                        <th>
+                            Date Created
+                        </th>
+                        <th>
+                            Assigned To
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Deadline
+                        </th>
+                        <th>
+                            Remarks
+                        </th>
+                        <th>
+                            Download Taskfile
+                        </th>
+                        <th>
+                            Submit Here
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var ts in ViewData["groupTasks"] as IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblGroupTasks>)
+                    {
+                        <tr>
+
+                            <td>
+                                @ts.gtDetails
+                            </td>
+                            <td>
+                                @ts.gtCreatedOn
+                            </td>
+                            <td>
+                                @ts.AssignedTo
+                            </td>
+                            <td>
+                                @ts.gtStatus
+                            </td>
+                            <td>
+                                @ts.gtDeadline
+                            </td>
+                            <td>
+                                @ts.TaskRemarks
+                            </td>
+                            <td>
+                               <a href="~/SupervisorTaskFile/@ts.gtTaskfile">Download</a>
+                            </td>
+                            @if (ts.TaskRemarks == null)
+                            {
+
+                                if (ts.gtDeadline > DateTime.Now)
+                                {
+                                    if (ts.AssignedTo == (string)Session["studentEmail"])
+                                    {
+                                        if (ts.gtStatus == "pending")
+                                        {
+
+                                            <td>
+
+
+                                                <a href="@Url.Action("TaskSubmission", "Groups")"> <input class="btn btn-info btn-sm" type="button" value="Submit" /></a>
+
+                                            </td>
+                                        }
+                                    }
+                                }
+                            }
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <br />
+            <br />
+            <div class=" col-md-12 card">
+                <h3>Admin Tasks</h3>
+                <br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Task Name
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                            <th>
+                                Assigned To
+                            </th>
+                            <th>
+                                Deadline
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Remarks
+                            </th>
+                            <th>
+                                Submit Here
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var ts in ViewData["AdminTask"] as IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblAdminTasks>)
+                        {
+                            <tr>
+
+                                <td>
+                                    @ts.AtaskName
+                                </td>
+                                <td>
+                                    @ts.AtaskDetails
+                                </td>
+                                <td>
+                                    @ts.Group
+                                </td>
+                                <td>
+                                    @ts.Deadline
+                                </td>
+                                <td>
+                                    @ts.AtaskStatus
+                                </td>
+                                <td>
+                                    @ts.AtaskRemarks
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("ATaskSubmission", "Groups")"> <input class="btn btn-info btn-sm" type="button" value="Submit" /></a>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+

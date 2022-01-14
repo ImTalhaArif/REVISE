@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "SupervisorInbox";
+    Layout = "~/Views/Layouts/_SupervisorEmpty.cshtml";
+}
+
+<h2>Inbox</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-11 card">
+            @using(Html.BeginForm())
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="p-5">Group Name</th>
+                            <th class="p-5">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach (var st in ViewData["groups"] as IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblGroup>)
+                       {
+                           <tr>
+                               <td class="p-5">
+                                   @st.groupName
+                               </td>
+                               <td class="p-5">
+                                   <button type="submit" class="btn btn-info" value="@st.groupName" name="grp">Chat Now</button>
+                               </td>
+                           </tr>
+                       }
+                    </tbody>
+                </table>
+            }
+
+        </div>
+    </div>
+</div>
