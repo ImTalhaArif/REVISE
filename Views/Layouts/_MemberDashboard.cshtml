@@ -54,7 +54,7 @@
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
+                                <img class="img-xs rounded-circle " src="~/Content/dp.jpg" alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
@@ -211,6 +211,14 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("acceptinvite","Groups")">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-monitor"></i>
+                        </span>
+                        <span class="menu-title">Group Invites</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
                     <a class="nav-link" href="@Url.Action("approvedMeetings","Groups")">
                         <span class="menu-icon">
                             <i class="mdi mdi-monitor"></i>
@@ -220,6 +228,14 @@
                 </li>
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="@Url.Action("StudentTask","Groups")">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-worker"></i>
+                        </span>
+                        <span class="menu-title">Tasks</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("StdGroupsCreate","Groups")">
                         <span class="menu-icon">
                             <i class="mdi mdi-worker"></i>
                         </span>

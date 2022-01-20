@@ -22,7 +22,7 @@ namespace TheFinalProduct_FYP_.Controllers
                     ViewData["meetings"] = db.tblMeetings.SqlQuery("SELECT * FROM tblMeetings WHERE meetingGroup = '"+Session["studentGroup"]+"'").ToList();
                     ViewData["request"] = db.tblRequestMeetings.SqlQuery("SELECT * FROM tblRequestMeetings WHERE rmGroup = '" + Session["studentGroup"] + "'").ToList();
                     ViewData["tasks"] = db.tblGroupTasks.SqlQuery("SELECT * FROM tblGroupTasks WHERE Taskgroup = '"+Session["studentGroup"]+"'").ToList();
-                    ViewData["score"] = db.tblStudentScores.SqlQuery("SELECT * FROM tblStudentScores").ToList();
+                    ViewData["score"] = db.tblStudentScores.SqlQuery("SELECT * FROM tblStudentScores where studentGroup = '"+Session["studentGroup"]+"'").ToList();
                     ViewData["Admin"] = db.tblAdminTasks.SqlQuery("SELECT * FROM tblAdminTasks WHERE [Group] = '"+Session["studentGroup"]+"'").ToList();
                     ViewData["supervision"] = db.tblRequestStatus.SqlQuery("SELECT * FROM tblRequestStatus WHERE rsGroup = '"+Session["studentGroup"]+"'").ToList();
                     ViewData["logchart"] = db.tblLogCharts.SqlQuery("SELECT * FROM tblLogCharts where lcGroup = '" + Session["studentGroup"] + "'").ToList();

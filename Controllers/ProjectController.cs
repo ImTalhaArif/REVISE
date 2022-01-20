@@ -29,45 +29,57 @@ namespace TheFinalProduct_FYP_.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CreateNew(tblProjects pro, HttpPostedFileBase file)
+        public ActionResult CreateNew(tblProjects pro, HttpPostedFileBase file, string scope)
         {
-            string path = Path.Combine(Server.MapPath("~/StudentProjects/"), Path.GetFileName(file.FileName));
-            file.SaveAs(path);    //The proposal is saved to a folder in project solution
-
             using (TableContext ai = new TableContext())
             {
-                tblStudents ab = new tblStudents();
 
-                //int userID = Convert.ToInt32(Session["studentGroup_groupID"]);
+                var check = ai.tblProjects.FirstOrDefault(x => x.projectScope.Contains(scope));
+                if (check != null)
+                {
+                    ViewBag.Message = String.Format("Project Declined, Copyright Detected! "); //This will be a decline to the project submission if the scope of project is found to be copied...
+                    return View();
+                }
+                else
+                {
 
 
 
-                var commandText = "INSERT INTO tblProjects (projectName,projectGroup, ProjectProposal,approvalStatus) VALUES ('" + pro.projectName + "','"+Session["studentGroup"]+"','" + file.FileName + "','notApproved')";
-                //var leader = "UPDATE tblStudents set isLeader = 'true' where studentID = " + Session["studentID"] + "";
-                var project = "UPDATE tblGroups SET groupProject = '"+pro.projectName+"' WHERE groupName = '"+Session["studentGroup"]+"'";
+                    string path = Path.Combine(Server.MapPath("~/StudentProjects/"), Path.GetFileName(file.FileName));
+                    file.SaveAs(path);    //The proposal is saved to a folder in project solution
+
+                    tblStudents ab = new tblStudents();
+
+                    //int userID = Convert.ToInt32(Session["studentGroup_groupID"]);
 
 
-                var name = new SqlParameter("@CategoryName", "Test");
-                ai.Database.ExecuteSqlCommand(commandText);
-                ai.Database.ExecuteSqlCommand(project);
 
-                //ai.Database.ExecuteSqlCommand(leader, name);
-                ai.SaveChanges();
+                    var commandText = "INSERT INTO tblProjects (projectName,projectGroup, ProjectProposal,approvalStatus, projectScope) VALUES ('" + pro.projectName + "','" + Session["studentGroup"] + "','" + file.FileName + "','notApproved', '" + scope + "')";
+                    //var leader = "UPDATE tblStudents set isLeader = 'true' where studentID = " + Session["studentID"] + "";
+                    var project = "UPDATE tblGroups SET groupProject = '" + pro.projectName + "' WHERE groupName = '" + Session["studentGroup"] + "'";
 
-                ViewBag.message = "DONE!";
-                // return RedirectToAction("Create", "Group");
-                //ai.tblGroups.Add(str);
-                ai.SaveChanges();
 
+                    var name = new SqlParameter("@CategoryName", "Test");
+                    ai.Database.ExecuteSqlCommand(commandText);
+                    ai.Database.ExecuteSqlCommand(project);
+
+                    //ai.Database.ExecuteSqlCommand(leader, name);
+                    ai.SaveChanges();
+
+                    ViewBag.message = "DONE!";
+                    // return RedirectToAction("Create", "Group");
+                    //ai.tblGroups.Add(str);
+                    ai.SaveChanges();
+
+                }
+                //Clear modelstate after registration
+                ModelState.Clear();
+                //return RedirectToAction("StudentDashboard");
+
+
+
+                return RedirectToAction("StudentDashboard", "Dashboard");
             }
-            //Clear modelstate after registration
-            ModelState.Clear();
-            //return RedirectToAction("StudentDashboard");
-
-
-
-            return RedirectToAction("StudentDashboard", "Dashboard");
-
             //return View();
         }
 

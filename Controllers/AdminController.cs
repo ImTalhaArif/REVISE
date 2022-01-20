@@ -9,33 +9,28 @@ namespace TheFinalProduct_FYP_.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
-        public ActionResult Supervisors()
+       
+        TableContext db = new TableContext();
+        public ActionResult Supervisors( string searchingg)
         {
-            using (TableContext db = new TableContext())
-            {
-                ViewData["supervisors"] = db.tblSupervisors.SqlQuery("SELECT * FROM tblSupervisors").ToList();
-
-
-
-            } return View();
+             return View(db.tblSupervisors.Where(x => x.supervisorName.Contains(searchingg) || searchingg == null).ToList());
         }
-        
+
         [HttpPost]
         public ActionResult Supervisors(string name, string sname, string email, string password, string domain, string desc, string details)
         {
 
-            if(details != null)
+            if (details != null)
             {
                 TempData["supervisorDetails"] = details;
                 return RedirectToAction("SupervisorDetails");
             }
 
-            if(desc != null)
+            if (desc != null)
             {
                 using (TableContext db = new TableContext())
                 {
-                    var addsp = "INSERT INTO tblSupervisors (supervisorName, supervisorEmail, supervisorPassword, supervisorDomain) VALUES ('"+sname+ "','" + email + "','" + password + "','" + domain + "')";
+                    var addsp = "INSERT INTO tblSupervisors (supervisorName, supervisorEmail, supervisorPassword, supervisorDomain) VALUES ('" + sname + "','" + email + "','" + password + "','" + domain + "')";
                     db.Database.ExecuteSqlCommand(addsp);
                     return RedirectToAction("Supervisors");
                 }
@@ -54,16 +49,16 @@ namespace TheFinalProduct_FYP_.Controllers
         {
             using (TableContext db = new TableContext())
             {
-                ViewData["myprofile"] = db.tblAdmins.SqlQuery("SELECT * FROM tblAdmins WHERE adminEmail = '"+Session["adminEmail"]+"'").ToList();
- }
+                ViewData["myprofile"] = db.tblAdmins.SqlQuery("SELECT * FROM tblAdmins WHERE adminEmail = '" + Session["adminEmail"] + "'").ToList();
+            }
             return View();
         }
         [HttpPost]
         public ActionResult adminProfile(string name, string email, string password)
         {
-            using(TableContext db = new TableContext())
+            using (TableContext db = new TableContext())
             {
-                var update = "UPDATE tblAdmins SET adminName = '"+name+"', adminEmail = '"+email+"', adminPassword = '"+password+"'";
+                var update = "UPDATE tblAdmins SET adminName = '" + name + "', adminEmail = '" + email + "', adminPassword = '" + password + "'";
                 db.Database.ExecuteSqlCommand(update);
                 return RedirectToAction("adminProfile");
 
@@ -72,13 +67,13 @@ namespace TheFinalProduct_FYP_.Controllers
 
         public ActionResult SupervisorDetails()
         {
-            if(TempData.ContainsKey("supervisorDetails"))
+            if (TempData.ContainsKey("supervisorDetails"))
             {
-               string supervisorName = TempData["supervisorDetails"].ToString();
+                string supervisorName = TempData["supervisorDetails"].ToString();
                 using (TableContext db = new TableContext())
                 {
-                    ViewData["details"] = db.tblSupervisors.SqlQuery("SELECT * FROM tblSupervisors Where supervisorName = '"+supervisorName+"'").ToList();
-                    ViewData["groups"] = db.tblGroups.SqlQuery("SELECT * FROM tblGroups Where groupSupervisor = '"+supervisorName+"'").ToList();
+                    ViewData["details"] = db.tblSupervisors.SqlQuery("SELECT * FROM tblSupervisors Where supervisorName = '" + supervisorName + "'").ToList();
+                    ViewData["groups"] = db.tblGroups.SqlQuery("SELECT * FROM tblGroups Where groupSupervisor = '" + supervisorName + "'").ToList();
 
                 }
             }
@@ -95,22 +90,16 @@ namespace TheFinalProduct_FYP_.Controllers
             return View();
         }
 
-        public ActionResult Groups()
+        public ActionResult Groups(string searchingg)
         {
-            using (TableContext db = new TableContext())
-            {
-                ViewData["Groups"] = db.tblGroups.SqlQuery("SELECT * FROM tblGroups").ToList();
+           
 
-
-
-            }
-
-            return View();
+            return View(db.tblGroups.Where(x => x.groupName.Contains(searchingg) || searchingg == null).ToList());
         }
         [HttpPost]
         public ActionResult Groups(string group, string detail)
         {
-            if(detail != null)
+            if (detail != null)
             {
                 TempData["grpdetail"] = detail;
                 return RedirectToAction("GroupDetails");
@@ -126,7 +115,7 @@ namespace TheFinalProduct_FYP_.Controllers
 
         public ActionResult GroupDetails()
         {
-            if(TempData.ContainsKey("grpdetail"))
+            if (TempData.ContainsKey("grpdetail"))
             {
                 string grpname = TempData["grpdetail"].ToString();
                 using (TableContext db = new TableContext())
@@ -140,7 +129,7 @@ namespace TheFinalProduct_FYP_.Controllers
                     ViewData["project"] = db.tblProjects.SqlQuery("SELECT * from tblProjects where projectGroup = '" + grpname + "'").ToList();
 
                 }
-                
+
             }
             return View();
         }
@@ -149,24 +138,19 @@ namespace TheFinalProduct_FYP_.Controllers
         {
             using (TableContext db = new TableContext())
             {
-                var delete = "UPDATE tblStudents SET studentGroup = 'none' WHERE studentEmail = '"+student+"'";
+                var delete = "UPDATE tblStudents SET studentGroup = 'none' WHERE studentEmail = '" + student + "'";
                 db.Database.ExecuteSqlCommand(delete);
                 return RedirectToAction("Groups");
-            
+
             }
 
         }
 
 
-        public ActionResult Projects()
+        public ActionResult Projects(string searchingg)
         {
-            using (TableContext db = new TableContext())
-            {
-                ViewData["projects"] = db.tblProjectRequests.SqlQuery("SELECT * FROM tblProjectRequests").ToList();
-              
-
-            }
-            return View();
+        
+            return View(db.tblProjectRequests.Where(x => x.Project.Contains(searchingg) || searchingg == null).ToList());
         }
         [HttpPost]
         public ActionResult Projects(string delete, string accept, string supervisor)
@@ -175,9 +159,9 @@ namespace TheFinalProduct_FYP_.Controllers
             {
                 using (TableContext db = new TableContext())
                 {
-                    var accepted = "UPDATE tblGroups set groupSupervisor = '"+supervisor+"' WHERE groupProject = '"+accept+"'";
+                    var accepted = "UPDATE tblGroups set groupSupervisor = '" + supervisor + "' WHERE groupProject = '" + accept + "'";
                     db.Database.ExecuteSqlCommand(accepted);
-                    var deleted = "DELETE FROM tblProjectRequests WHERE project = '"+accept+"'";
+                    var deleted = "DELETE FROM tblProjectRequests WHERE project = '" + accept + "'";
                     db.Database.ExecuteSqlCommand(deleted);
                     return RedirectToAction("Projects");
                 }
@@ -252,28 +236,28 @@ namespace TheFinalProduct_FYP_.Controllers
         }
         public ActionResult SendAdminTask()
         {
-            if(TempData.ContainsKey("name"))
+            if (TempData.ContainsKey("name"))
             {
                 string group = TempData["name"].ToString();
                 using (TableContext db = new TableContext())
                 {
-                    ViewData["SINGULAR"] = db.tblGroups.SqlQuery("SELECT * FROM tblGroups WHERE groupName = '"+group+"'").ToList();
+                    ViewData["SINGULAR"] = db.tblGroups.SqlQuery("SELECT * FROM tblGroups WHERE groupName = '" + group + "'").ToList();
                 }
             }
             return View();
         }
         [HttpPost]
-        public ActionResult SendAdminTask(string name, DateTime deadline, string details ,string group)
+        public ActionResult SendAdminTask(string name, DateTime deadline, string details, string group)
         {
             using (TableContext db = new TableContext())
             {
 
-                    var assign = "INSERT INTO tblAdminTasks (AtaskName, AtaskDetails, AtaskStatus, AtaskRemarks, Deadline, AtaskCreated, [Group])VALUES('"+name+"','"+details+ "','Pending','Not Given','" + deadline + "',GETDATE(), '" + group+"')";
-                    db.Database.ExecuteSqlCommand(assign);
-                }
-                 return RedirectToAction("AdminDashboard","Dashboard");
+                var assign = "INSERT INTO tblAdminTasks (AtaskName, AtaskDetails, AtaskStatus, AtaskRemarks, Deadline, AtaskCreated, [Group])VALUES('" + name + "','" + details + "','Pending','Not Given','" + deadline + "',GETDATE(), '" + group + "')";
+                db.Database.ExecuteSqlCommand(assign);
             }
-            public ActionResult AssignedTasks()
+            return RedirectToAction("AdminDashboard", "Dashboard");
+        }
+        public ActionResult AssignedTasks()
         {
             using (TableContext db = new TableContext())
             {
@@ -282,28 +266,30 @@ namespace TheFinalProduct_FYP_.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AssignedTasks( string remarks, string group)
+        public ActionResult AssignedTasks(string remarks, string group)
         {
             using (TableContext db = new TableContext())
             {
-            
-                  var rem = "UPDATE tblAdminTasks SET AtaskRemarks = '" + remarks + "' WHERE [Group] = '"+group+"' ";
-                  db.Database.ExecuteSqlCommand(rem);
-              
-           
-              return RedirectToAction("AdminDashboard","Dashboard");
+
+                var rem = "UPDATE tblAdminTasks SET AtaskRemarks = '" + remarks + "' WHERE [Group] = '" + group + "' ";
+                db.Database.ExecuteSqlCommand(rem);
+
+
+                return RedirectToAction("AdminDashboard", "Dashboard");
             }
             //return View();
         }
-        public ActionResult Students()
-        {
-            using (TableContext db = new TableContext())
-            {
-                ViewData["students"] = db.tblStudents.SqlQuery("SELECT * FROM tblStudents").ToList();
+        //TableContext db = new TableContext();
+            
+        public ActionResult Students(string searching)
+    {
 
-            }
-            return View();
-        }
+        //ViewData["students"] = db.tblStudents.SqlQuery("SELECT * FROM tblStudents").ToList();
+
+
+        return View(db.tblStudents.Where(x=> x.studentFname.Contains(searching) || searching == null).ToList());
+    }
+
         [HttpPost]
         public ActionResult Students( int student)
         {

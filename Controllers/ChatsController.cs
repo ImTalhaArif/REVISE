@@ -45,8 +45,9 @@ namespace TheFinalProduct_FYP_.Controllers
         {
           using(TableContext db = new TableContext())
             {
-                var new = "Insert into tblChats (senderName, message, receiverName) VALUES"
+                var news = "Insert into tblChats (senderName, message, receiverName) VALUES";
             }
+            return View();
         }
     }
 }

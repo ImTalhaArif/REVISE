@@ -29,6 +29,7 @@ namespace TheFinalProduct_FYP_.Controllers
                     ViewBag.Message = String.Format("Incorrect Email or Password");
                     return View();
                 }
+
                 if (student != null)
                 {
                     Session["studentEmail"] = student.studentEmail.ToString();

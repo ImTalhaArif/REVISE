@@ -144,6 +144,30 @@ namespace TheFinalProduct_FYP_.Controllers
             }
             return View();
         }
+
+        public ActionResult GroupChat()
+        {
+            using(TableContext db = new TableContext())
+            {
+                ViewData["Group"] = db.tblGroups.SqlQuery("Select * From tblGroups Where groupSupervisor = '" + Session["supervisorName"] + "' ").ToList();
+                ViewData["Messages"] = db.tblChats.SqlQuery("Select * From tblChats Where receiverName = '" + Session["supervisorName"] + "' order by timesent asc ").ToList();
+                ViewData["Sent"] = db.tblChats.SqlQuery("Select * From tblChats Where senderName = '" + Session["supervisorName"] + "' order by timesent asc ").ToList();
+
+            }
+            Response.AddHeader("Refresh", "15");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GroupChat(string msg, string receiver)
+        {
+            using(TableContext db = new TableContext())
+            {
+                var sendmessage = "INSERT INTO tblChats (senderName, message, receiverName, timesent) VALUES ('" + Session["supervisorName"] + "', '"+msg+"', '"+receiver+ "', GETDATE())";
+                db.Database.ExecuteSqlCommand(sendmessage);
+            }
+            return RedirectToAction("GroupChat");
+        }
+
         [HttpPost]
         public ActionResult ViewMore(string student, string group)
         {

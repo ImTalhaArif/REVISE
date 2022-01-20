@@ -54,7 +54,7 @@
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
+                                <img class="img-xs rounded-circle " src="~/Content/dp.jpg" alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
@@ -194,22 +194,55 @@
                             </div>
                         </li>
                     } }
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="@Url.Action("Inbox","Chats")">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-message-text"></i>
-                        </span>
-                        <span class="menu-title">Messages</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="@Url.Action("RequestMeeting","Meetings")">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-monitor"></i>
-                        </span>
-                        <span class="menu-title">Request Meeting</span>
-                    </a>
-                </li>
+               
+                @{
+                    using (TheFinalProduct_FYP_.db_fypManagement.TableContext db = new TheFinalProduct_FYP_.db_fypManagement.TableContext())
+                    {
+                        if (Session["isLeader"].ToString() == "false" && Session["studentGroup"].ToString() == "none")
+                        {
+                            <li class="nav-item menu-items">
+                                <a class="nav-link" href="@Url.Action("StdGroupsCreate", "Groups")">
+                                    <span class="menu-icon">
+                                        <i class="mdi mdi-worker"></i>
+                                    </span>
+                                    <span class="menu-title">Create Group</span>
+                                </a>
+                            </li>
+
+                        }
+                    } }
+                @{
+                    using (TheFinalProduct_FYP_.db_fypManagement.TableContext db = new TheFinalProduct_FYP_.db_fypManagement.TableContext())
+                    {
+                        if (Session["isLeader"].ToString() == "true")
+                        {
+                            <li class="nav-item menu-items">
+                                <a class="nav-link" href="@Url.Action("AddMembers", "Groups")">
+                                    <span class="menu-icon">
+                                        <i class="mdi mdi-worker"></i>
+                                    </span>
+                                    <span class="menu-title">Add Members</span>
+                                </a>
+                            </li>
+
+                        }
+                    } }
+                @{
+                    using (TheFinalProduct_FYP_.db_fypManagement.TableContext db = new TheFinalProduct_FYP_.db_fypManagement.TableContext())
+                    {
+                        if (Session["isLeader"].ToString() == "true")
+                        {
+                            <li class="nav-item menu-items">
+                                <a class="nav-link" href="@Url.Action("RequestMeeting", "Meetings")">
+                                    <span class="menu-icon">
+                                        <i class="mdi mdi-monitor"></i>
+                                    </span>
+                                    <span class="menu-title">Request Meeting</span>
+                                </a>
+                            </li>
+                        }
+                    }
+                }
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="@Url.Action("approvedMeetings","Groups")">
                         <span class="menu-icon">
@@ -224,6 +257,14 @@
                             <i class="mdi mdi-worker"></i>
                         </span>
                         <span class="menu-title">Tasks</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("GroupChat","Groups")">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-message"></i>
+                        </span>
+                        <span class="menu-title">Messaging</span>
                     </a>
                 </li>
 
@@ -310,7 +351,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
+                                    <img class="img-xs rounded-circle" src="~/Content/dp.jpg" alt="">
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name">@Session["studentFname"] @Session["studentLname"]</p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
@@ -349,6 +390,8 @@
                 </div>
             </nav>
             <!-- partial -->
+            
+            
             <div class="main-panel">
                 <div class="content-wrapper">
 

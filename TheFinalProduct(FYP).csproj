@@ -485,6 +485,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\dp.jpg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="FrontEndAsstes\assets\css\style.css" />
@@ -1806,6 +1807,8 @@
     <Content Include="Views\Groups\StudentTask.cshtml" />
     <Content Include="Views\Chats\SupervisorInbox.cshtml" />
     <Content Include="Views\Chats\groupChat.cshtml" />
+    <Content Include="Views\Supervisor\GroupChat.cshtml" />
+    <Content Include="Views\Groups\GroupChat.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,6 +14,7 @@ namespace TheFinalProduct_FYP_.db_fypManagement
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "Name Your Project Please"), MaxLength(30)]
         public string projectName { get; set; }
+        public string projectScope { get; set; }
         public string projectGroup { get; set; }
  
         public string ProjectProposal { get; set; }

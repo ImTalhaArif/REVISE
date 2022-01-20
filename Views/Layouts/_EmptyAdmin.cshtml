@@ -21,6 +21,21 @@
     <link rel="stylesheet" href="~/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="~/assets/images/favicon.png" />
+    <style>
+        li {
+            font-weight: 450;
+            text-align: left;
+            font-size: 15px;
+            min-height: 15px;
+            background-color: #191c24;
+            padding: 5px 15px;
+            color: #fff;
+            overflow: visible;
+            position: relative;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="container-scroller">
@@ -32,7 +47,7 @@
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="~/assets/images/faces/face15.jpg" alt="">
+                                <img class="img-xs rounded-circle " src="~/Content/dp.jpg" alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
@@ -110,7 +125,7 @@
                         <span class="menu-icon">
                             <i class="mdi mdi-account-plus"></i>
                         </span>
-                        <span class="menu-title">Create Deadline Notifications</span>
+                        <span class="menu-title">Create Notifications</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
@@ -142,7 +157,7 @@
                         <span class="menu-icon">
                             <i class="mdi mdi-account-multiple-outline"></i>
                         </span>
-                        <span class="menu-title">Submitted FYP Projects</span>
+                        <span class="menu-title">Submitted Projects</span>
                     </a>
                 </li> 
 
@@ -296,7 +311,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="~/assets/images/faces/face15.jpg" alt="">
+                                    <img class="img-xs rounded-circle" src="~/Content/dp.jpg" alt="">
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name">
                                         @Session["adminName"]
                                     </p>

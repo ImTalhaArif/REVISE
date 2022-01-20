@@ -1,61 +1,76 @@
-﻿
+﻿@model IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblProjectRequests>
 @{
     ViewBag.Title = "Projects";
     Layout = "~/Views/Layouts/_EmptyAdmin.cshtml";
 }
-
-<h2>Projects</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Project Name
-            </th>
-            <th>
-                Group Name
-            </th>
-           
-            <th>Proposal Sent to
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var sr in ViewData["projects"] as IEnumerable<TheFinalProduct_FYP_.db_fypManagement.tblProjectRequests>)
-        {
+@using (Html.BeginForm("Projects", "Admin", FormMethod.Get))
+{
+    <h2>Projects</h2>
+    <div style="float:right;"> @Html.TextBox("searchingg")<input type="submit" value="search" class="btn  btn-info ml-2" /></div>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @sr.Project
-                </td>
-                <td>
-                    @sr.Group
-                </td>
-            
-                <td>
-                    @sr.Supervisor
-                </td>
-                <td>
-                    @using (Html.BeginForm())
-                    {
-                        <input type="hidden" name="supervisor" value="@sr.Supervisor" />
-                        <button class="btn btn-success" value="@sr.Project" onclick="accept()" name="accept">Accept Request</button>
+                <th>
+                    Project Name
+                </th>
+                <th>
+                    Group Name
+                </th>
 
-                        <button class="btn btn-danger" value="@sr.Project" onclick="success()" name="delete">Reject Request</button>
-                    }
-                </td>
+                <th>
+                    Proposal Sent to
+                </th>
+                <th>
+                    Actions
+                </th>
             </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td>
+                        No Results Found
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Project
+                        </td>
+                        <td>
+                            @item.Group
+                        </td>
 
-        }
-        </tbody>
-</table>
-<script>
-    function success() {
-        alert("Project Deleted Successfully!!!");
-    }
-    function accept() {
-        alert("Project Accepted Successfully!!!");
-    }
-</script>
+                        <td>
+                            @item.Supervisor
+                        </td>
+                        <td>
+                            @using (Html.BeginForm())
+                            {
+                                <input type="hidden" name="supervisor" value="@item.Supervisor" />
+                                <button class="btn btn-success" value="@item.Project" onclick="accept()" name="accept">Accept Request</button>
+
+                                <button class="btn btn-danger" value="@item.Project" onclick="success()" name="delete">Reject Request</button>
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+            </tbody>
+        </table>
+}
+                   <script>
+            function success() {
+                alert("Project Deleted Successfully!!!");
+            }
+            function accept() {
+                alert("Project Accepted Successfully!!!");
+            }
+        </script>
+    
