@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -236,7 +236,9 @@ namespace TheFinalProduct_FYP_.Controllers
         {
             using (TableContext db = new TableContext())
             {
-                ViewData["groupTasks"] = db.tblGroupTasks.SqlQuery("SELECT *from tblGroupTasks where Taskgroup = '" + Session["studentGroup"] + "'").ToList();
+                ViewData["groupTasks"] = db.tblGroupTasks.SqlQuery("SELECT *from tblGroupTasks where Taskgroup = '" + Session["studentGroup"] + "' AND gtStatus = 'pending'").ToList();
+                ViewData["completeTasks"] = db.tblGroupTasks.SqlQuery("SELECT *from tblGroupTasks where Taskgroup = '" + Session["studentGroup"] + "' AND gtStatus = 'completed'").ToList();
+                ViewData["expiredTasks"] = db.tblGroupTasks.SqlQuery("SELECT *from tblGroupTasks where Taskgroup = '" + Session["studentGroup"] + "' AND gtDeadline < GETDATE() AND gtStatus = 'pending'").ToList();
                 ViewData["AdminTask"] = db.tblAdminTasks.SqlQuery("SELECT * FROM tblAdminTasks where [Group] = '" + Session["studentGroup"] + "'").ToList();
             }
             return View();
